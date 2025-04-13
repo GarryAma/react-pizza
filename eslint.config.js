@@ -27,8 +27,9 @@ export default [
     rules: {
       ...js.configs.recommended.rules,
       ...react.configs.recommended.rules,
-      "no-unused-vars": ["warn"],
+      "no-unused-vars": "off",
       "react/react-in-jsx-scope": "off",
+      "react/no-unescaped-entities": "off",
     },
   },
 ];
