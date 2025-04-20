@@ -17,7 +17,7 @@ import {
 //this loader function will run before Order component mount
 //if error occured,Error component will display(based on what i put in App.jsx(Order route))
 export const loader = async (obj) => {
-  console.log(obj);
+  // console.log(obj);
   const result = await getOrder(obj.params.orderId);
   // console.log(result);
   return result;
@@ -26,6 +26,8 @@ export const loader = async (obj) => {
 function Order() {
   const order = useLoaderData();
   // Everyone can search for all orders, so for privacy reasons we're gonna gonna exclude names or address, these are only for the restaurant staff
+  // console.log(order);
+
   const {
     id,
     status,
@@ -44,7 +46,7 @@ function Order() {
 
         <div>
           {priority && <span>Priority</span>}
-          <span>{status} order</span>
+          <span> {status} order</span>
         </div>
       </div>
 

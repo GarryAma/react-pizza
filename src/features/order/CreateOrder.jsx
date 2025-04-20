@@ -1,3 +1,6 @@
+import { Form, redirect, useActionData, useNavigation } from "react-router-dom";
+import { createOrder } from "../../services/apiRestaurant";
+
 // https://uibakery.io/regex-library/phone-number
 const isValidPhone = (str) =>
   /^\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}$/.test(
@@ -28,15 +31,54 @@ const fakeCart = [
   },
 ];
 
+export const action = async (objBawaan) => {
+  // console.log(objBawaan.request.formData());
+  // console.log(objBawaan.request);
+  const formData = await objBawaan.request.formData();
+  // console.log(formData);
+  const data = Object.fromEntries(formData);
+  // console.log(data);
+
+  const newOrder = {
+    ...data,
+    priority: data.priority === "on",
+    cart: JSON.parse(data.cart),
+  };
+
+  console.log(newOrder);
+
+  //checking if phone number valid
+  if (!isValidPhone(newOrder.phone)) {
+    return {
+      errorMessage:
+        "Please give us correct phone number as we might contact you regarding your order!!cheers",
+    };
+  }
+
+  //submit form if everything is okay
+  const order = await createOrder(newOrder);
+  // console.log(order);
+
+  return redirect(`/order/${order.id}`);
+};
+
 function CreateOrder() {
   // const [withPriority, setWithPriority] = useState(false);
   const cart = fakeCart;
+
+  //checking loading state
+  const navigation = useNavigation();
+  const isSubmitting = navigation.state === "submitting";
+
+  //getting error state for phone validation
+  //acting as a state
+  const err = useActionData();
 
   return (
     <div>
       <h2>Ready to order? Let's go!</h2>
 
-      <form>
+      <Form method="POST" action="/order/new">
         <div>
           <label>First Name</label>
           <input type="text" name="customer" required />
@@ -47,6 +89,9 @@ function CreateOrder() {
           <div>
             <input type="tel" name="phone" required />
           </div>
+          {err?.errorMessage ? (
+            <p style={{ color: "red" }}>{err.errorMessage}</p>
+          ) : null}
         </div>
 
         <div>
@@ -68,9 +113,13 @@ function CreateOrder() {
         </div>
 
         <div>
-          <button>Order now</button>
+          {/* //input hidden in order to send data outside form!! */}
+          <input type="hidden" name="cart" value={JSON.stringify(cart)} />
+          <button disabled={isSubmitting}>
+            {isSubmitting ? "Processing your order now..." : "sumbit"}
+          </button>
         </div>
-      </form>
+      </Form>
     </div>
   );
 }
