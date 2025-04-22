@@ -1,13 +1,16 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import SearchOrder from "../features/order/SearchOrder";
+import Username from "../features/user/Username";
 
 const Header = () => {
   return (
-    <header style={{ border: "1px solid black" }}>
-      <Link to={"/"}>React-Pizza</Link>
+    <header className="bg-yellow-500 uppercase">
+      <Link to={"/"} className="tracking-[8px]">
+        React-Pizza
+      </Link>
       <SearchOrder />
-      <p>Garry ⚡️</p>
+      <Username />
     </header>
   );
 };

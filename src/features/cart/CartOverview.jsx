@@ -2,12 +2,11 @@ import { Link } from "react-router-dom";
 
 function CartOverview() {
   return (
-    <div style={{ border: "1px solid black" }}>
-      <h1>this is CartOverview</h1>
-      <p>
+    <div className="bg-stone-800 text-stone-200 uppercase">
+      <div className="text-stone-300 font-semibold ">
         <span>23 pizzas</span>
         <span>$23.45</span>
-      </p>
+      </div>
       <Link to="/cart">Open cart &rarr;</Link>
     </div>
   );
