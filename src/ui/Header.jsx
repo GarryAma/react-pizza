@@ -5,7 +5,7 @@ import Username from "../features/user/Username";
 
 const Header = () => {
   return (
-    <header className="bg-yellow-500 uppercase">
+    <header className="bg-yellow-400 uppercase px-4 py-3 border-b-2 border-stone-500 sm:px-6">
       <Link to={"/"} className="tracking-[8px]">
         React-Pizza
       </Link>

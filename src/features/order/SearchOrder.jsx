@@ -17,6 +17,7 @@ const SearchOrder = () => {
       <input
         placeholder="search order number #"
         onChange={(e) => setQuery(e.target.value)}
+        className="border-1 border-white px-2 py-1/2 rounded-md"
       />
     </form>
   );
