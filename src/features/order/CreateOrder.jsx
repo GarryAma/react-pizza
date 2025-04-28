@@ -1,5 +1,6 @@
 import { Form, redirect, useActionData, useNavigation } from "react-router-dom";
 import { createOrder } from "../../services/apiRestaurant";
+import Button from "../../ui/Button";
 
 // https://uibakery.io/regex-library/phone-number
 const isValidPhone = (str) =>
@@ -77,17 +78,21 @@ function CreateOrder() {
   return (
     <div>
       <h2>Ready to order? Let's go!</h2>
-
       <Form method="POST" action="/order/new">
         <div>
           <label>First Name</label>
-          <input type="text" name="customer" required />
+          <input
+            type="text"
+            name="customer"
+            required
+            className="rounded-full border border-stone-200 px-3 py-1 text-sm transition-all duration-300 placeholder:text-stone-400 focus:outline-none focus:ring focus:ring-green-500 w-full"
+          />
         </div>
 
         <div>
           <label>Phone number</label>
           <div>
-            <input type="tel" name="phone" required />
+            <input type="tel" name="phone" required className="input" />
           </div>
           {err?.errorMessage ? (
             <p style={{ color: "red" }}>{err.errorMessage}</p>
@@ -97,7 +102,7 @@ function CreateOrder() {
         <div>
           <label>Address</label>
           <div>
-            <input type="text" name="address" required />
+            <input type="text" name="address" required className="input" />
           </div>
         </div>
 
@@ -108,6 +113,7 @@ function CreateOrder() {
             id="priority"
             // value={withPriority}
             // onChange={(e) => setWithPriority(e.target.checked)}
+            className="w-4 h-4  accent-green-600"
           />
           <label htmlFor="priority">Want to yo give your order priority?</label>
         </div>
@@ -115,9 +121,9 @@ function CreateOrder() {
         <div>
           {/* //input hidden in order to send data outside form!! */}
           <input type="hidden" name="cart" value={JSON.stringify(cart)} />
-          <button disabled={isSubmitting}>
-            {isSubmitting ? "Processing your order now..." : "sumbit"}
-          </button>
+          <Button disabled={isSubmitting}>
+            {isSubmitting ? "Processing your order now..." : "Order now"}
+          </Button>
         </div>
       </Form>
     </div>
