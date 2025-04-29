@@ -9,15 +9,13 @@ const AppLayout = () => {
   const isLoading = navigation.state === "loading";
 
   return (
-    <div className="grid grid-rows-[auto_1fr_auto] h-screen">
-      {isLoading && <Loader />}
-
+    <div className="relative grid grid-rows-[auto_1fr_auto] h-screen">
+      {/* {isLoading && <Loader />} */}
+      <Loader />
       <Header />
-
       <main className="max-w-3xl w-full mx-auto">
         <Outlet />
       </main>
-
       <CartOverview />
     </div>
   );
