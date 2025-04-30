@@ -9,9 +9,9 @@ const AppLayout = () => {
   const isLoading = navigation.state === "loading";
 
   return (
-    <div className="relative grid grid-rows-[auto_1fr_auto] h-screen">
-      {/* {isLoading && <Loader />} */}
-      <Loader />
+    <div className="relative grid grid-rows-[auto_1fr_auto] h-screen font-display">
+      {isLoading && <Loader />}
+      {/* <Loader /> */}
       <Header />
       <main className="max-w-3xl w-full mx-auto">
         <Outlet />
