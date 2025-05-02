@@ -58,7 +58,7 @@ export const action = async (objBawaan) => {
 
   //submit form if everything is okay
   const order = await createOrder(newOrder);
-  // console.log(order);
+  console.log(order);
 
   return redirect(`/order/${order.id}`);
 };

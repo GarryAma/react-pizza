@@ -2,7 +2,7 @@ import { useNavigate, useRouteError } from "react-router-dom";
 import LinkButton from "./LinkButton";
 
 function NotFound() {
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const errorOccured = useRouteError();
   console.log(errorOccured);
   return (
