@@ -76,37 +76,49 @@ function CreateOrder() {
   const err = useActionData();
 
   return (
-    <div>
-      <h2>Ready to order? Let's go!</h2>
+    <div className="px-4 py-6">
+      <h2 className="font-semibold text-xl mb-8">Ready to order? Let's go!</h2>
       <Form method="POST" action="/order/new">
-        <div>
-          <label>First Name</label>
+        <div className="mb-5 flex flex-col sm:flex-row ">
+          <label className="sm:basis-1/5">First Name:</label>
           <input
             type="text"
             name="customer"
             required
-            className="rounded-full border border-stone-200 px-3 py-1 text-sm transition-all duration-300 placeholder:text-stone-400 focus:outline-none focus:ring focus:ring-green-500 w-full"
+            className="sm:basis-4/5 rounded-full border border-stone-200 px-3 py-1 text-sm transition-all duration-300 placeholder:text-stone-400 focus:outline-none focus:ring focus:ring-green-500 w-full"
           />
         </div>
 
-        <div>
-          <label>Phone number</label>
-          <div>
-            <input type="tel" name="phone" required className="input" />
-          </div>
-          {err?.errorMessage ? (
-            <p style={{ color: "red" }}>{err.errorMessage}</p>
-          ) : null}
+        <div className="mb-2 flex flex-col sm:flex-row ">
+          <label className="sm:basis-1/5">Phone number:</label>
+
+          <input
+            type="tel"
+            name="phone"
+            required
+            className="sm:basis-4/5 rounded-full border border-stone-200 px-3 py-1 text-sm transition-all duration-300 placeholder:text-stone-400 focus:outline-none focus:ring focus:ring-green-500 w-full"
+          />
+        </div>
+        {err?.errorMessage ? (
+          <>
+            <p className="text-xs text-red-700 bg-red-300 p-1 rounded-lg">
+              {err.errorMessage}
+            </p>
+            <br />
+          </>
+        ) : null}
+
+        <div className="mb-5 flex flex-col sm:flex-row ">
+          <label className="sm:basis-1/5">Address:</label>
+          <input
+            type="text"
+            name="address"
+            required
+            className="sm:basis-4/5 rounded-full border border-stone-200 px-3 py-1 text-sm transition-all duration-300 placeholder:text-stone-400 focus:outline-none focus:ring focus:ring-green-500 w-full"
+          />
         </div>
 
-        <div>
-          <label>Address</label>
-          <div>
-            <input type="text" name="address" required className="input" />
-          </div>
-        </div>
-
-        <div>
+        <div className="mb-12 space-x-4">
           <input
             type="checkbox"
             name="priority"
@@ -121,7 +133,7 @@ function CreateOrder() {
         <div>
           {/* //input hidden in order to send data outside form!! */}
           <input type="hidden" name="cart" value={JSON.stringify(cart)} />
-          <Button disabled={isSubmitting}>
+          <Button disabled={isSubmitting} type="primary">
             {isSubmitting ? "Processing your order now..." : "Order now"}
           </Button>
         </div>
