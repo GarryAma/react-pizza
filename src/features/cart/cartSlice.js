@@ -11,6 +11,16 @@ const initialState = {
   //   },
 };
 
+//calculating cart
+export const getTotalCart = (state) =>
+  state.cart.cart.reduce((previous, current) => previous + current.quantity, 0);
+
+//calculating total amount of the cart
+export const getTotalAmount = (state) =>
+  state.cart.cart.reduce((prev, current) => prev + current.totalPrice, 0);
+
+//getTotalCart,getTotalAmount, and if we create some more, will create performance issue in large application, we need to use reselect(take a look!!)
+
 const cartSlice = createSlice({
   name: "cart",
   initialState,
