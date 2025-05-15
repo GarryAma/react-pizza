@@ -6,8 +6,8 @@ function CartOverview() {
   const cartQuantity = useSelector(getTotalCart);
   const totalAmount = useSelector(getTotalAmount);
 
-  console.log(cartQuantity);
-  console.log(totalAmount);
+  // console.log(cartQuantity);
+  // console.log(totalAmount);
 
   if (!cartQuantity) return null;
 

@@ -2,7 +2,9 @@ import { Link } from "react-router-dom";
 import LinkButton from "../../ui/LinkButton";
 import Button from "../../ui/Button";
 import CartItem from "./CartItem";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { clearCart, getCart } from "./cartSlice";
+import EmptyCart from "./EmptyCart";
 
 const fakeCart = [
   {
@@ -29,9 +31,17 @@ const fakeCart = [
 ];
 
 function Cart() {
+  const dispatch = useDispatch();
   const user = useSelector((state) => state.user);
-  console.log(user);
-  const cart = fakeCart;
+  const cart = useSelector(getCart);
+  // const cart = fakeCart;
+  console.log(cart);
+
+  const removeAllCart = () => {
+    dispatch(clearCart());
+  };
+
+  if (!cart.length) return <EmptyCart />;
 
   return (
     <div className="py-3 px-4">
@@ -43,14 +53,16 @@ function Cart() {
 
       <ul className="divide-y divide-stone-200 border-b border-stone-200 mt-3">
         {cart.map((item) => (
-          <CartItem key={item.key} item={item} />
+          <CartItem key={item.pizzaId} item={item} />
         ))}
       </ul>
       <div className="mt-6 space-x-2">
         <Button to={"/order/new"} type="primary">
           Order pizzas
         </Button>
-        <Button type="secondary">Clear cart</Button>
+        <Button type="secondary" onclick={removeAllCart}>
+          Clear cart
+        </Button>
       </div>
     </div>
   );
