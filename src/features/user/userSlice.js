@@ -4,7 +4,8 @@
 //   });
 // }
 
-import { createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { getAddress } from "../../services/apiGeocoding";
 
 // async function fetchAddress() {
 //   // 1) We get the user's geolocation position
@@ -22,8 +23,42 @@ import { createSlice } from "@reduxjs/toolkit";
 //   return { position, address };
 // }
 
+const fetchLatAndLong = () => {
+  return new Promise((resolve, reject) => {
+    const success = (position) => {
+      resolve({
+        latitude: position.coords.latitude,
+        longitude: position.coords.longitude,
+      });
+    };
+
+    const error = (err) => {
+      reject(err.message);
+    };
+
+    try {
+      navigator.geolocation.getCurrentPosition(success, error);
+    } catch (error) {
+      console.log(error);
+    }
+  });
+};
+
+export const fetchAddress = createAsyncThunk("user/fetchAddress", async () => {
+  const posObject = await fetchLatAndLong();
+  const addressObj = await getAddress(posObject);
+  const address = `${addressObj?.locality}, ${addressObj?.city} ${addressObj?.postcode}, ${addressObj?.countryName}`;
+  // console.log(addressObj);
+
+  return { posObject, address };
+});
+
 const initialState = {
   username: "",
+  status: "idle",
+  position: {},
+  address: "",
+  error: "",
 };
 
 const userSlice = createSlice({
@@ -31,10 +66,28 @@ const userSlice = createSlice({
   initialState,
   reducers: {
     updateName: (state, action) => {
+      // console.log(action);
       state.username = action.payload;
     },
   },
+  extraReducers: (builder) => {
+    builder
+      .addCase(fetchAddress.pending, (state, action) => {
+        state.status = "loading";
+      })
+      .addCase(fetchAddress.fulfilled, (state, action) => {
+        (state.status = "idle"), (state.position = action.payload.posObject);
+        state.address = action.payload.address;
+      })
+      .addCase(fetchAddress.rejected, (state, action) => {
+        state.status = "error";
+        state.error = action.error.message;
+      });
+  },
 });
+
+// console.log(userSlice.actions);
+// console.log(userSlice.reducer);
 
 export const { updateName } = userSlice.actions;
 

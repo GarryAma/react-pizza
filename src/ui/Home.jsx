@@ -4,6 +4,17 @@ import Button from "./Button";
 
 function Home() {
   const user = useSelector((state) => state.user);
+  function getPosition() {
+    return new Promise(function (resolve, reject) {
+      navigator.geolocation.getCurrentPosition(resolve, reject);
+    });
+  }
+  const result = async () => {
+    const position = await getPosition();
+    console.log(position);
+  };
+
+  console.log(result());
 
   return (
     <div className="my-10 text-center sm:my-16 ">

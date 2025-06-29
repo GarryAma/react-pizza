@@ -22,6 +22,10 @@ export const getTotalAmount = (state) =>
 //obtain cart array
 export const getCart = (state) => state.cart.cart;
 
+//get current item quantity( the one that user click)
+export const getCurrentQuantityUserClicked = (id) => (state) =>
+  state.cart.cart.find((item) => item.pizzaId === id)?.quantity ?? 0;
+
 //getCart,getTotalCart,getTotalAmount, and if we create some more, will create performance issue in large application, we need to use reselect(take a look!!)
 
 const cartSlice = createSlice({
@@ -53,6 +57,16 @@ const cartSlice = createSlice({
       selectedItem.quantity--;
 
       selectedItem.totalPrice = selectedItem.quantity * selectedItem.unitPrice;
+
+      //we can use cartSlice.casereducers
+      // if (selectedItem.quantity === 0) {
+      //   state.cart = state.cart.filter(
+      //     (item) => item.pizzaId !== action.payload
+      //   );
+      // }
+
+      if (selectedItem.quantity === 0)
+        cartSlice.caseReducers.removeItem(state, action);
     },
     clearCart: (state, action) => {
       state.cart = [];

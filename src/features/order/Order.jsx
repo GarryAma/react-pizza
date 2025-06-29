@@ -17,7 +17,7 @@ import {
 //this loader function will run before Order component mount
 //if error occured,Error component will display(based on what i put in App.jsx(Order route))
 export const loader = async (obj) => {
-  console.log(obj);
+  // console.log(obj);
   const result = await getOrder(obj.params.orderId);
   // console.log(result);
   return result;
