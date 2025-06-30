@@ -11,10 +11,8 @@ function Home() {
   }
   const result = async () => {
     const position = await getPosition();
-    console.log(position);
+    // console.log(position);
   };
-
-  console.log(result());
 
   return (
     <div className="my-10 text-center sm:my-16 ">

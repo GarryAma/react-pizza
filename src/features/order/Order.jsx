@@ -7,6 +7,8 @@ import {
   formatCurrency,
   formatDate,
 } from "../../utils/helpers";
+import { useEffect } from "react";
+import UpdatePriorityOrder from "./UpdatePriorityOrder";
 
 //https://chatgpt.com/c/67fb2a28-a424-8012-940e-33174537a31a
 //cant use useParams()
@@ -28,8 +30,15 @@ function Order() {
   // Everyone can search for all orders, so for privacy reasons we're gonna gonna exclude names or address, these are only for the restaurant staff
   // console.log(order);
 
-  //use the data from menu route without user going there
+  //use the data from menu route without user going there, for ingredients
   const fetcher = useFetcher();
+  // console.log(fetcher);
+
+  useEffect(() => {
+    if (!fetcher.data && fetcher.state === "idle") fetcher.load("/menu");
+  }, [fetcher]);
+
+  console.log(fetcher.data);
 
   const {
     id,
@@ -73,7 +82,14 @@ function Order() {
 
       <ul className="divide-y divide-stone-200">
         {cart.map((item) => (
-          <OrderItem key={item.pizzaId} item={item} />
+          <OrderItem
+            key={item.pizzaId}
+            item={item}
+            ingredients={
+              fetcher.data?.find((el) => el.id === item.pizzaId)?.ingredients
+            }
+            isLoadingIngredients={fetcher.state === "loading"}
+          />
         ))}
       </ul>
 
@@ -90,6 +106,7 @@ function Order() {
           To pay on delivery: {formatCurrency(orderPrice + priorityPrice)}
         </p>
       </div>
+      {!priority && <UpdatePriorityOrder order={order} />}
     </div>
   );
 }

@@ -13,7 +13,7 @@ const isValidPhone = (str) =>
 
 //action() must return:1.redirect/2.response object/3.null
 export const action = async (objBawaan) => {
-  console.log(objBawaan);
+  // console.log(objBawaan);
   // console.log(objBawaan.request.formData());
   // console.dir(objBawaan.request);
   // console.log(Object.getPrototypeOf(objBawaan.request));
@@ -58,7 +58,7 @@ function CreateOrder() {
   } = useSelector((state) => state.user);
 
   const isLoadingAddress = addressStatus === "loading";
-  console.log(errorStatus);
+  // console.log(errorStatus);
 
   // const [withPriority, setWithPriority] = useState(false);
   // const cart = fakeCart;
